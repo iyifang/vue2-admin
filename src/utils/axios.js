@@ -22,7 +22,11 @@ server.interceptors.response.use(
   response=>{
     const res = response.data
     // 判断响应状态返回数据
-    console.log(res);
+    if(res.code != 200){
+      return Promise.reject(new Error(res.message || '请求错误!'))
+    }else{
+      return res
+    }
   },
   error=>{
     console.log(error);

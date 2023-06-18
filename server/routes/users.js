@@ -4,9 +4,8 @@ var db = require('../util/mysql')
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  console.log(req.query);
   var sql = 'select * from users where username=?';
-  var sqlAll = [req.query.data];
+  var sqlAll = [req.query.name];
   var callBack = (err, data) => {
     if (err)
     {

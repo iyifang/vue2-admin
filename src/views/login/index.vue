@@ -12,30 +12,34 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary"
-                     @click="onSubmit('form')">立即创建</el-button>
+                     @click="onSubmit('form')" :loading="loading">立即创建</el-button>
         </el-form-item>
       </el-form>
     </div>
   </div>
 </template>
 <script>
-import { getUser } from "@/api/app"
 export default {
   data () {
     return {
       ruleForm: {
         name: 'admin',
         password: 'admin123'
-      }
+      },
+      loading: false
     }
   },
   methods: {
     onSubmit (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid)
         {
-          getUser().then(res => {
-            console.log(res);
+          this.loading = true
+          this.$store.dispatch('user/login',this.ruleForm).then(()=>{
+            this.$router.push({path: '/'}),
+            this.loading = false
+          }).catch(()=>{
+            this.loading = false
           })
         } else
         {
